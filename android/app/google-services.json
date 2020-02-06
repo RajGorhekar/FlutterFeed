@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1036479986044",
+    "firebase_url": "https://flutterfeed-35ec2.firebaseio.com",
+    "project_id": "flutterfeed-35ec2",
+    "storage_bucket": "flutterfeed-35ec2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036479986044:android:7af5f32696fd09f6070cf9",
+        "android_client_info": {
+          "package_name": "com.raj.flutterfeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036479986044-cshva3th93hn67kqhkecj9am6o12harv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.raj.flutterfeed",
+            "certificate_hash": "753e5d34732a50534519b5ee5c0dccb7a251f7b9"
+          }
+        },
+        {
+          "client_id": "1036479986044-squ52a1nsha6sg1gdssh0ov61ou0en9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYEInz846TKlk5Dj364WiT0qme96fAJ1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036479986044-squ52a1nsha6sg1gdssh0ov61ou0en9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
