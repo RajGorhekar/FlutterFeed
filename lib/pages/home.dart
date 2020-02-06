@@ -6,12 +6,15 @@ import 'package:FlutterFeed/pages/search.dart';
 import 'package:FlutterFeed/pages/timeline.dart';
 import 'package:FlutterFeed/pages/upload.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
-final userRef = Firestore.instance.collection('path');
+final StorageReference storageRef = FirebaseStorage.instance.ref();
+final userRef = Firestore.instance.collection('users');
+final postsRef = Firestore.instance.collection('posts');
 final DateTime timeStamp = DateTime.now();
 User currentUser;
 
@@ -116,7 +119,7 @@ class _HomeState extends State<Home> {
             child: Text('Logout'),
           ),
           ActivityFeed(),
-          Upload(),
+          Upload(currentUser),
           Search(),
           Profile(),
         ],

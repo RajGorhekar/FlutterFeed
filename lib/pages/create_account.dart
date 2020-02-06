@@ -13,7 +13,7 @@ class _CreateAccountState extends State<CreateAccount> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  submit(){
+  submit() {
     final form = _formKey.currentState;
     FocusScope.of(context).requestFocus(new FocusNode());
     if (form.validate()) {
@@ -30,10 +30,10 @@ class _CreateAccountState extends State<CreateAccount> {
   Widget build(BuildContext parentContext) {
     return Scaffold(
       key: _scaffoldKey,
-        appBar: header(context, titleText: "Set up your profile"),
-        body: ListView(
-          children: <Widget>[
-             Container(
+      appBar: header(context, titleText: "Set up your profile"),
+      body: ListView(
+        children: <Widget>[
+          Container(
             child: Column(
               children: <Widget>[
                 Padding(
@@ -94,7 +94,8 @@ class _CreateAccountState extends State<CreateAccount> {
               ],
             ),
           )
-          ],
-        ));
+        ],
+      ),
+    );
   }
 }
