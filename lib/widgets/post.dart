@@ -232,6 +232,7 @@ class _PostState extends State<Post> {
             Expanded(child: Text(description))
           ],
         ),
+        SizedBox(height : 10)
       ],
     );
   }

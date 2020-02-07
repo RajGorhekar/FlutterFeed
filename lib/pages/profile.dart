@@ -191,7 +191,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  buildProfilePosts() {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 buildProfilePosts() {
     if (isLoading) {
       return circularProgress();
     } else if (posts.isEmpty) {
