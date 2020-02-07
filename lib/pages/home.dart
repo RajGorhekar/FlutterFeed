@@ -13,7 +13,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final StorageReference storageRef = FirebaseStorage.instance.ref();
-final userRef = Firestore.instance.collection('users');
+final usersRef = Firestore.instance.collection('users');
 final postsRef = Firestore.instance.collection('posts');
 final DateTime timeStamp = DateTime.now();
 User currentUser;
@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
         "bio": "",
         "timeStamp": timeStamp
       });
-      doc= await userRef.document(user.id).get();
+      doc= await usersRef.document(user.id).get();
     }
     currentUser = User.fromDocument(doc);
   }
@@ -121,7 +121,7 @@ class _HomeState extends State<Home> {
           ActivityFeed(),
           Upload(currentUser),
           Search(),
-          Profile(),
+          Profile(profileId : currentUser?.id),
         ],
         controller: pageController,
         onPageChanged: onPagechanged,
