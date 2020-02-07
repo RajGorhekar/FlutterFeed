@@ -1,9 +1,14 @@
 import 'package:FlutterFeed/models/user.dart';
-import 'package:FlutterFeed/pages/timeline.dart';
+import 'package:FlutterFeed/pages/edit_profile.dart';
+import 'package:FlutterFeed/pages/home.dart';
 import 'package:FlutterFeed/widgets/header.dart';
+import 'package:FlutterFeed/widgets/post.dart';
+import 'package:FlutterFeed/widgets/post_tile.dart';
 import 'package:FlutterFeed/widgets/progress.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatefulWidget {
   final String profileId;
@@ -13,7 +18,33 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final String currentUserId = currentUser?.id;
+  String postOrientation = "grid";
+  bool isLoading = false;
+  int postCount = 0;
+  List<Post> posts = [];
 
+  @override
+  void initState() {
+    super.initState();
+    getProfilePosts();
+  }
+
+  getProfilePosts() async {
+    setState(() {
+      isLoading = true;
+    });
+    QuerySnapshot snapshot = await postsRef
+        .document(widget.profileId)
+        .collection('userPosts')
+        .orderBy('timestamp', descending: true)
+        .getDocuments();
+    setState(() {
+      isLoading = false;
+      postCount = snapshot.documents.length;
+      posts = snapshot.documents.map((doc) => Post.fromDocument(doc)).toList();
+    });
+  }
 
   Column buildCountColumn(String label, int count) {
     return Column(
@@ -39,11 +70,49 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  buildProfileButton() {
-    return Text('profile Button');
-    }
+  editProfile() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EditProfile(currentUserId: currentUserId)));
+  }
 
-  buildProfileHeader(){
+  Container buildButton({String text, Function function}) {
+    return Container(
+      padding: EdgeInsets.only(top: 2.0),
+      child: FlatButton(
+        onPressed: function,
+        child: Container(
+          width: 235,
+          height: 27.0,
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            border: Border.all(
+              color: Colors.blue,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  buildProfileButton() {
+    bool isProfileOwner = currentUserId == widget.profileId;
+    if (isProfileOwner) {
+      return buildButton(text: "Edit Profile", function: editProfile);
+    }
+  }
+
+  buildProfileHeader() {
     return FutureBuilder(
       future: usersRef.document(widget.profileId).get(),
       builder: (context, snapshot) {
@@ -66,6 +135,7 @@ class _ProfileState extends State<Profile> {
                     flex: 1,
                     child: Column(
                       children: <Widget>[
+                        SizedBox(height: 10),
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,14 +156,14 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ),
+              SizedBox(height: 10),
               Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(top: 12.0),
+                padding: EdgeInsets.only(top: 4.0),
                 child: Text(
                   user.username,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
                   ),
                 ),
               ),
@@ -120,6 +190,83 @@ class _ProfileState extends State<Profile> {
       },
     );
   }
+
+  buildProfilePosts() {
+    if (isLoading) {
+      return circularProgress();
+    } else if (posts.isEmpty) {
+      return Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 50),
+            SvgPicture.asset('assets/images/upload.svg', height: 160.0),
+            Padding(
+              padding: EdgeInsets.only(top: 40.0),
+              child: Text(
+                "No Posts Yet",
+                style: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 40.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    } else if (postOrientation == 'grid') {
+      List<GridTile> gridTiles = [];
+      posts.forEach((post) {
+        gridTiles.add(GridTile(
+          child: PostTile(post),
+        ));
+      });
+      return GridView.count(
+        crossAxisCount: 3,
+        childAspectRatio: 1.0,
+        mainAxisSpacing: 1.5,
+        crossAxisSpacing: 1.5,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: gridTiles,
+      );
+    } else if (postOrientation == 'list') {
+      return Column(
+        children: posts,
+      );
+    }
+  }
+
+  setPostOrientation(String po) {
+    setState(() {
+      postOrientation = po;
+    });
+  }
+
+  buildTogglePostOrientation() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        IconButton(
+          onPressed: () => setPostOrientation('grid'),
+          icon: Icon(Icons.grid_on),
+          color: postOrientation == 'grid'
+              ? Theme.of(context).primaryColor
+              : Colors.grey,
+        ),
+        IconButton(
+          onPressed: () => setPostOrientation('list'),
+          icon: Icon(Icons.list),
+          color: postOrientation == 'list'
+              ? Theme.of(context).primaryColor
+              : Colors.grey,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,6 +274,10 @@ class _ProfileState extends State<Profile> {
       body: ListView(
         children: <Widget>[
           buildProfileHeader(),
+          Divider(),
+          buildTogglePostOrientation(),
+          Divider(),
+          buildProfilePosts(),
         ],
       ),
     );
