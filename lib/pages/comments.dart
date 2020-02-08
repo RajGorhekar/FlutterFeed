@@ -50,7 +50,8 @@ class CommentsState extends State<Comments> {
   }
 
   addComment() async {
-    commentsRef.document(postId).collection('comments').add({
+    if(commentController.text.trim()!='' || commentController.text.isNotEmpty){
+      commentsRef.document(postId).collection('comments').add({
       "username": currentUser.username,
       "comment": commentController.text,
       "timestamp": timeStamp,
@@ -71,6 +72,7 @@ class CommentsState extends State<Comments> {
       });
     }
     commentController.clear();
+    }
   }
 
   @override

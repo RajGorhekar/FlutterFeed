@@ -279,10 +279,10 @@ class _ProfileState extends State<Profile> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: 70),
-            SvgPicture.asset('assets/images/upload.svg', height: 160.0),
+            SizedBox(height: 0),
+            SvgPicture.asset('assets/images/no_content.svg', height: 160.0),
             Padding(
-              padding: EdgeInsets.only(top: 80.0),
+              padding: EdgeInsets.only(top: 50.0),
               child: Text(
                 "No Posts Yet",
                 style: TextStyle(

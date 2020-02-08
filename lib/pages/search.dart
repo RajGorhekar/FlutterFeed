@@ -1,6 +1,6 @@
 import 'package:FlutterFeed/models/user.dart';
 import 'package:FlutterFeed/pages/activity_feed.dart';
-import 'package:FlutterFeed/pages/timeline.dart';
+import 'package:FlutterFeed/pages/home.dart';
 import 'package:FlutterFeed/widgets/progress.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +12,7 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
   TextEditingController searchController = TextEditingController();
   Future<QuerySnapshot> searchResultsFuture;
 
@@ -106,8 +106,10 @@ class _SearchState extends State<Search> {
     );
   }
 
+bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.8),
       appBar: buildSearchField(),
@@ -116,7 +118,7 @@ class _SearchState extends State<Search> {
   }
 }
 
-class UserResult extends StatelessWidget {
+class UserResult extends StatelessWidget  {
   final User user;
   const UserResult({Key key, this.user}) : super(key: key);
 

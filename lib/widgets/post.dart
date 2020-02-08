@@ -4,6 +4,7 @@ import 'package:FlutterFeed/models/user.dart';
 import 'package:FlutterFeed/pages/activity_feed.dart';
 import 'package:FlutterFeed/pages/comments.dart';
 import 'package:FlutterFeed/pages/home.dart';
+import 'package:FlutterFeed/pages/profile.dart';
 import 'package:FlutterFeed/widgets/custom_image.dart';
 import 'package:FlutterFeed/widgets/progress.dart';
 import 'package:animator/animator.dart';
@@ -27,7 +28,8 @@ class Post extends StatefulWidget {
     this.location,
     this.description,
     this.mediaUrl,
-    this.likes, String userId,
+    this.likes,
+    String userId,
   });
 
   factory Post.fromDocument(DocumentSnapshot doc) {
@@ -101,13 +103,14 @@ class _PostState extends State<Post> {
           return circularProgress();
         }
         User user = User.fromDocument(snapshot.data);
+        bool isPostOwner = currentUserId == ownerId;
         return ListTile(
           leading: CircleAvatar(
             backgroundImage: CachedNetworkImageProvider(user.photoUrl),
             backgroundColor: Colors.grey,
           ),
           title: GestureDetector(
-            onTap: () => showProfile(context,profileId : user.id),
+            onTap: () => showProfile(context, profileId: user.id),
             child: Text(
               user.username,
               style: TextStyle(
@@ -117,13 +120,80 @@ class _PostState extends State<Post> {
             ),
           ),
           subtitle: Text(location),
-          trailing: IconButton(
-            onPressed: () => print('deleting post'),
-            icon: Icon(Icons.more_vert),
-          ),
+          trailing: isPostOwner
+              ? IconButton(
+                  onPressed: () => handleDeletePost(context),
+                  icon: Icon(Icons.more_vert),
+                )
+              : Text(''),
         );
       },
     );
+  }
+
+  handleDeletePost(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            elevation: 10,
+            title: Text("Remove this Post ? "),
+            children: <Widget>[
+              Divider(),
+              SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    deletePost();
+                  },
+                  child: Text('Delete',
+                      style: TextStyle(color: Colors.red, fontSize: 20))),
+              SizedBox(
+                height: 10,
+              ),
+              SimpleDialogOption(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancel',
+                      style: TextStyle(color: Colors.green, fontSize: 20)))
+            ],
+          );
+        });
+  }
+
+  deletePost() async {
+    postsRef
+        .document(ownerId)
+        .collection('userPosts')
+        .document(postId)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    storageRef.child("post_$postId.jpg").delete();
+    QuerySnapshot activityFeedSnapshot = await activityFeedRef
+        .document(ownerId)
+        .collection('feedItems')
+        .where('postId', isEqualTo: postId)
+        .getDocuments();
+    activityFeedSnapshot.documents.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    QuerySnapshot commentsSnapshot = await commentsRef
+        .document(postId)
+        .collection('comments')
+        .getDocuments();
+    commentsSnapshot.documents.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+   Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Profile(profileId: currentUserId,)),
+  );
   }
 
   handleLikePost() {
