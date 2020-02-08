@@ -20,7 +20,7 @@ class PostScreen extends StatelessWidget {
         Post post = Post.fromDocument(snapshot.data);
         return Center(
           child: Scaffold(
-            appBar: header(context,titleText : post.description),
+            appBar: header(context,isAppTitle: true),
             body: ListView(
               children : <Widget> [
                 Container(

@@ -12,7 +12,8 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
+class _SearchState extends State<Search>
+    with AutomaticKeepAliveClientMixin<Search> {
   TextEditingController searchController = TextEditingController();
   Future<QuerySnapshot> searchResultsFuture;
 
@@ -95,7 +96,7 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
         snapshot.data.documents.forEach((doc) {
           User user = User.fromDocument(doc);
           UserResult searchResult = UserResult(
-            user: user,
+            user,
           );
           searchResults.add(searchResult);
         });
@@ -106,21 +107,23 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
     );
   }
 
-bool get wantKeepAlive => true;
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.8),
       appBar: buildSearchField(),
-      body:searchResultsFuture == null ? buildNoContent() : buildsearchResults(),
+      body:
+          searchResultsFuture == null ? buildNoContent() : buildsearchResults(),
     );
   }
 }
 
-class UserResult extends StatelessWidget  {
+class UserResult extends StatelessWidget {
   final User user;
-  const UserResult({Key key, this.user}) : super(key: key);
+
+  UserResult(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -129,11 +132,12 @@ class UserResult extends StatelessWidget  {
       child: Column(
         children: <Widget>[
           GestureDetector(
-            onTap: () => showProfile(context,profileId : user.id),
+            onTap: () => showProfile(context, profileId: user.id),
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.black,
-                backgroundImage: CachedNetworkImageProvider(user.photoUrl),//NetworkImage(user.photoUrl),
+                backgroundImage: CachedNetworkImageProvider(
+                    user.photoUrl), //NetworkImage(user.photoUrl),
                 radius: 25,
               ),
               title: Text(

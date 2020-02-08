@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:FlutterFeed/models/user.dart';
 import 'package:FlutterFeed/pages/activity_feed.dart';
 import 'package:FlutterFeed/pages/create_account.dart';
@@ -6,6 +8,7 @@ import 'package:FlutterFeed/pages/search.dart';
 import 'package:FlutterFeed/pages/timeline.dart';
 import 'package:FlutterFeed/pages/upload.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +24,6 @@ final timelineRef = Firestore.instance.collection('timeline');
 final followersRef = Firestore.instance.collection('followers');
 final followingRef = Firestore.instance.collection('following');
 
-
 final DateTime timeStamp = DateTime.now();
 User currentUser;
 
@@ -31,15 +33,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   bool isAuth = false;
   PageController pageController;
-
   int pageIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    
+
     pageController = PageController();
     googleSignIn.onCurrentUserChanged.listen((account) {
       handleSignIn(account);
@@ -53,17 +56,57 @@ class _HomeState extends State<Home> {
     });
   }
 
-  handleSignIn(GoogleSignInAccount account) async{
+  handleSignIn(GoogleSignInAccount account) async {
     if (account != null) {
       await createUserInFirestore();
       setState(() {
         isAuth = true;
       });
+      configurePushNotification();
     } else {
       setState(() {
         isAuth = false;
       });
     }
+  }
+
+  configurePushNotification(){
+    final GoogleSignInAccount user = googleSignIn.currentUser;
+    if (Platform.isIOS) getiOSPermission();
+
+    _firebaseMessaging.getToken().then((token) {
+      print("Firebase Messaging Token: $token\n");
+      usersRef
+          .document(user.id)
+          .updateData({"androidNotificationToken": token});
+    });
+
+    _firebaseMessaging.configure(
+      // onLaunch: (Map<String, dynamic> message) async {},
+      // onResume: (Map<String, dynamic> message) async {},
+      onMessage: (Map<String, dynamic> message) async {
+        print("on message: $message\n");
+        final String recipientId = message['data']['recipient'];
+        final String body = message['notification']['body'];
+        if (recipientId == user.id) {
+          print("Notification shown!");
+          SnackBar snackbar = SnackBar(
+              content: Text(
+            body,
+            overflow: TextOverflow.ellipsis,
+          ));
+          _scaffoldKey.currentState.showSnackBar(snackbar);
+        }
+        print("Notification NOT shown");
+      },
+    );
+  }
+  getiOSPermission(){
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(alert: true, badge: true, sound: true));
+    _firebaseMessaging.onIosSettingsRegistered.listen((settings) {
+      print("Settings registered: $settings");
+    });
   }
 
   createUserInFirestore() async {
@@ -83,8 +126,12 @@ class _HomeState extends State<Home> {
         "bio": "",
         "timeStamp": timeStamp
       });
-      await followersRef.document(user.id).collection('userFollowers').document(user.id).setData({});
-      doc= await usersRef.document(user.id).get();
+      await followersRef
+          .document(user.id)
+          .collection('userFollowers')
+          .document(user.id)
+          .setData({});
+      doc = await usersRef.document(user.id).get();
     }
     currentUser = User.fromDocument(doc);
   }
@@ -119,9 +166,10 @@ class _HomeState extends State<Home> {
 
   Scaffold buildAuthScreen() {
     return Scaffold(
+      key: _scaffoldKey,
       body: PageView(
         children: <Widget>[
-          Timeline(currentUser : currentUser),
+          Timeline(currentUser: currentUser),
           // RaisedButton(
           //   onPressed: logout,
           //   child: Text('Logout'),
@@ -129,7 +177,7 @@ class _HomeState extends State<Home> {
           ActivityFeed(),
           Upload(currentUser),
           Search(),
-          Profile(profileId : currentUser?.id),
+          Profile(profileId: currentUser?.id),
         ],
         controller: pageController,
         onPageChanged: onPagechanged,

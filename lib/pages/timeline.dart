@@ -16,7 +16,7 @@ class Timeline extends StatefulWidget {
 
 class _TimelineState extends State<Timeline> {
   List<Post> posts;
-  List<String> followingList = [ ];
+  List<String> followingList = [];
   @override
   void initState() {
     super.initState();
@@ -25,13 +25,13 @@ class _TimelineState extends State<Timeline> {
   }
 
   getFollowing() async {
-    QuerySnapshot snapshot  = await followingRef
+    QuerySnapshot snapshot = await followingRef
         .document(currentUser.id)
         .collection('userFollowing')
         .getDocuments();
-        setState(() {
-          followingList = snapshot.documents.map((doc)=> doc.documentID).toList();
-        });
+    setState(() {
+      followingList = snapshot.documents.map((doc) => doc.documentID).toList();
+    });
   }
 
   getTimeline() async {
@@ -47,33 +47,31 @@ class _TimelineState extends State<Timeline> {
     });
   }
 
-  buildUserToFollow() {
+ buildUsersToFollow() {
     return StreamBuilder(
-        stream: usersRef
-            .orderBy('timestamp', descending: true)
-            .limit(30)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return circularProgress();
+      stream:
+          usersRef.orderBy('timestamp', descending: true).limit(30).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return circularProgress();
+        }
+        List<UserResult> userResults = [];
+        snapshot.data.documents.forEach((doc) {
+          User user = User.fromDocument(doc);
+          final bool isAuthUser = currentUser.id == user.id;
+          final bool isFollowingUser = followingList.contains(user.id);
+          // remove auth user from recommended list
+          if (isAuthUser) {
+            return;
+          } else if (isFollowingUser) {
+            return;
+          } else {
+            UserResult userResult = UserResult(user);
+            userResults.add(userResult);
           }
-          List<UserResult> userResults = [];
-          snapshot.data.documents.forEach((doc) {
-            User user = User.fromDocument(doc);
-            final bool isAuthUser = currentUser.id == user.id;
-            final bool isFollowingUser = followingList.contains(user.id);
-            // remove auth user from recommended list
-            if (isAuthUser) {
-              return;
-            } else if (isFollowingUser) {
-              return;
-            } else {
-              UserResult userResult = UserResult(user: user,);
-              userResults.add(userResult);
-            }
-          });
-          return Container(
-              color: Theme.of(context).accentColor.withOpacity(0.2),
+        });
+        return Container(
+          color: Theme.of(context).accentColor.withOpacity(0.2),
           child: Column(
             children: <Widget>[
               Container(
@@ -102,15 +100,16 @@ class _TimelineState extends State<Timeline> {
               Column(children: userResults),
             ],
           ),
-            );
-        });
+        );
+      },
+    );
   }
 
   buildTimeLine() {
     if (posts == null) {
       return circularProgress();
     } else if (posts.isEmpty) {
-      return buildUserToFollow();
+      return buildUsersToFollow();
     } else {
       return ListView(children: posts);
     }
