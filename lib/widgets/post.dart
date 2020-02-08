@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:FlutterFeed/models/user.dart';
+import 'package:FlutterFeed/pages/activity_feed.dart';
+import 'package:FlutterFeed/pages/comments.dart';
 import 'package:FlutterFeed/pages/home.dart';
 import 'package:FlutterFeed/widgets/custom_image.dart';
 import 'package:FlutterFeed/widgets/progress.dart';
@@ -25,7 +27,7 @@ class Post extends StatefulWidget {
     this.location,
     this.description,
     this.mediaUrl,
-    this.likes,
+    this.likes, String userId,
   });
 
   factory Post.fromDocument(DocumentSnapshot doc) {
@@ -78,7 +80,7 @@ class _PostState extends State<Post> {
   int likeCount;
   Map likes;
   bool isLiked;
-  bool showHeart = false ;
+  bool showHeart = false;
 
   _PostState({
     this.postId,
@@ -90,7 +92,6 @@ class _PostState extends State<Post> {
     this.likes,
     this.likeCount,
   });
-
 
   buildPostHeader() {
     return FutureBuilder(
@@ -106,7 +107,7 @@ class _PostState extends State<Post> {
             backgroundColor: Colors.grey,
           ),
           title: GestureDetector(
-            onTap: () => print('showing profile'),
+            onTap: () => showProfile(context,profileId : user.id),
             child: Text(
               user.username,
               style: TextStyle(
@@ -125,33 +126,75 @@ class _PostState extends State<Post> {
     );
   }
 
-  handleLikePost(){
-    bool _isLiked = likes[currentUserId] == true; 
-    if(_isLiked){
-      postsRef.document(ownerId).collection('userPosts').document(postId).updateData({'likes.$currentUserId' : false});
+  handleLikePost() {
+    bool _isLiked = likes[currentUserId] == true;
+    if (_isLiked) {
+      postsRef
+          .document(ownerId)
+          .collection('userPosts')
+          .document(postId)
+          .updateData({'likes.$currentUserId': false});
+      removeLikeFrommActivityFeed();
       setState(() {
         likeCount--;
-        isLiked =false;
+        isLiked = false;
         likes[currentUserId] = false;
       });
     }
-    if(!_isLiked){
-      postsRef.document(ownerId).collection('userPosts').document(postId).updateData({'likes.$currentUserId' : true});
+    if (!_isLiked) {
+      postsRef
+          .document(ownerId)
+          .collection('userPosts')
+          .document(postId)
+          .updateData({'likes.$currentUserId': true});
+      addLikeToActivityFeed();
       setState(() {
         likeCount++;
-        isLiked =true;
+        isLiked = true;
         likes[currentUserId] = true;
-        showHeart =true ;
+        showHeart = true;
       });
-      Timer(Duration (milliseconds: 1000), (){
+      Timer(Duration(milliseconds: 1000), () {
         setState(() {
-          showHeart = false ;
+          showHeart = false;
         });
       });
     }
-    
+  }
 
+  addLikeToActivityFeed() {
+    bool isNotPostOwner = currentUserId != ownerId;
+    if (isNotPostOwner) {
+      activityFeedRef
+          .document(ownerId)
+          .collection('feedItems')
+          .document(postId)
+          .setData({
+        "type": "like",
+        "username": currentUser.username,
+        "userId": currentUser.id,
+        "userProfileImg": currentUser.photoUrl,
+        "postId": postId,
+        "mediaUrl": mediaUrl,
+        "timestamp": timeStamp,
+      });
+    }
+  }
 
+  removeLikeFrommActivityFeed() {
+    bool isNotPostOwner = currentUserId != ownerId;
+    if (isNotPostOwner) {
+      activityFeedRef
+          .document(ownerId)
+          .collection('feedItems')
+          .document(postId)
+          .get()
+          .then((doc) {
+        if (doc.exists) {
+          doc.reference.delete();
+        }
+      });
+    }
   }
 
   buildPostImage() {
@@ -161,16 +204,19 @@ class _PostState extends State<Post> {
         alignment: Alignment.center,
         children: <Widget>[
           cachedNetworkImage(mediaUrl),
-          showHeart ? Animator(
-            duration: Duration(milliseconds : 1200 ),
-            tween: Tween(begin: 0.8,end : 1.4),
-            curve: Curves.elasticOut,
-            cycles: 0,
-            builder: (anim) => Transform.scale(
-              scale: anim.value,
-              child: Icon(Icons.favorite,size: 80,color: Colors.white70),
-            ),
-          )  : Text("")
+          showHeart
+              ? Animator(
+                  duration: Duration(milliseconds: 1200),
+                  tween: Tween(begin: 0.8, end: 1.4),
+                  curve: Curves.elasticOut,
+                  cycles: 0,
+                  builder: (anim) => Transform.scale(
+                    scale: anim.value,
+                    child:
+                        Icon(Icons.favorite, size: 80, color: Colors.white70),
+                  ),
+                )
+              : Text("")
         ],
       ),
     );
@@ -186,14 +232,19 @@ class _PostState extends State<Post> {
             GestureDetector(
               onTap: handleLikePost,
               child: Icon(
-                isLiked ? Icons.favorite : Icons.favorite_border ,
+                isLiked ? Icons.favorite : Icons.favorite_border,
                 size: 28.0,
                 color: Colors.pink,
               ),
             ),
             Padding(padding: EdgeInsets.only(right: 20.0)),
             GestureDetector(
-              onTap: () => print('showing comments'),
+              onTap: () => showComments(
+                context,
+                postId: postId,
+                ownerId: ownerId,
+                mediaUrl: mediaUrl,
+              ),
               child: Icon(
                 Icons.chat,
                 size: 28.0,
@@ -232,15 +283,15 @@ class _PostState extends State<Post> {
             Expanded(child: Text(description))
           ],
         ),
-        SizedBox(height : 10)
+        SizedBox(height: 10)
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    isLiked = (likes[currentUserId]== true);
-     return Column(
+    isLiked = (likes[currentUserId] == true);
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         buildPostHeader(),
@@ -250,4 +301,15 @@ class _PostState extends State<Post> {
       ],
     );
   }
+}
+
+showComments(BuildContext context,
+    {String postId, String ownerId, String mediaUrl}) {
+  Navigator.push(context, MaterialPageRoute(builder: (context) {
+    return Comments(
+      postId: postId,
+      postOwnerId: ownerId,
+      postMediaUrl: mediaUrl,
+    );
+  }));
 }
