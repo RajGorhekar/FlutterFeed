@@ -123,7 +123,10 @@ class _PostState extends State<Post> {
           trailing: isPostOwner
               ? IconButton(
                   onPressed: () => handleDeletePost(context),
-                  icon: Icon(Icons.more_vert),
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Colors.black,
+                  ),
                 )
               : Text(''),
         );
@@ -190,10 +193,13 @@ class _PostState extends State<Post> {
         doc.reference.delete();
       }
     });
-   Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => Profile(profileId: currentUserId,)),
-  );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Profile(
+                profileId: currentUserId,
+              )),
+    );
   }
 
   handleLikePost() {
@@ -298,7 +304,7 @@ class _PostState extends State<Post> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: 40.0, left: 20.0)),
+            Padding(padding: EdgeInsets.only(top: 40.0, left: 10.0)),
             GestureDetector(
               onTap: handleLikePost,
               child: Icon(
@@ -326,7 +332,7 @@ class _PostState extends State<Post> {
         Row(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 20.0),
+              margin: EdgeInsets.only(left: 10.0),
               child: Text(
                 "$likeCount likes",
                 style: TextStyle(
@@ -340,18 +346,41 @@ class _PostState extends State<Post> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: 20.0),
-              child: Text(
-                "$username ",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Expanded(child: Text(description))
+            Expanded(
+              child: Container(
+                  margin: EdgeInsets.only(left: 10.0, right: 10),
+                  child: RichText(
+                    text: TextSpan(
+                      text: '',
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: '$username : ',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        TextSpan(text: description),
+                      ],
+                    ),
+                  )),
+            )
           ],
+        ),
+        SizedBox(height: 5),
+        Container(
+          margin: EdgeInsets.only(left: 10.0),
+          alignment: Alignment.topLeft,
+          child: GestureDetector(
+            onTap: () => showComments(
+              context,
+              postId: postId,
+              ownerId: ownerId,
+              mediaUrl: mediaUrl,
+            ),
+            child: Text(
+              'View all Comments',
+              style:
+                  TextStyle(color: Colors.black38, fontWeight: FontWeight.w500),
+            ),
+          ),
         ),
         SizedBox(height: 10)
       ],

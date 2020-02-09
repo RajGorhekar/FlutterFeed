@@ -140,6 +140,18 @@ class _EditProfileState extends State<EditProfile> {
           : ListView(
               children: <Widget>[
                 Container(
+                  height: 25,
+                  color: Colors.grey[350],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('You are Logged In as : '),
+                      Text(user.username ,style: TextStyle(fontWeight : FontWeight.bold ,color: Colors.green),)
+                    ],
+                  ),
+                ),
+                SizedBox(height : 10),
+                Container(
                   child: Column(
                     children: <Widget>[
                       Padding(

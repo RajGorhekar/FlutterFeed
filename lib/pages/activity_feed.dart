@@ -23,7 +23,6 @@ class _ActivityFeedState extends State<ActivityFeed> {
         .getDocuments();
     List<ActivityFeedItem> feedItems = [];
     snapshot.documents.forEach((doc) {
-      print('Activity Feed Item');
       feedItems.add(ActivityFeedItem.fromDocument(doc));
     });
     return feedItems;
@@ -89,13 +88,13 @@ class ActivityFeedItem extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => PostScreen(postId: postId, userId: userId)));
+            builder: (context) => PostScreen(userId: userId,postId: postId, )));
   }
 
   configureMediaPreview(context) {
     if (type == "like" || type == 'comment') {
       mediaPreview = GestureDetector(
-        onTap: () => showPost(context),
+        onTap: () =>showPost(context),// null,//Navigator.push(context, MaterialPageRoute(builder: (context)=> PostScreen(postId: postId,userId: userId,))),,showPost(context),
         child: Container(
           height: 50.0,
           width: 50.0,

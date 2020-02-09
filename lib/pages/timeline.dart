@@ -50,7 +50,7 @@ class _TimelineState extends State<Timeline> {
  buildUsersToFollow() {
     return StreamBuilder(
       stream:
-          usersRef.orderBy('timestamp', descending: true).limit(30).snapshots(),
+          usersRef.orderBy('timeStamp', descending: true).limit(30).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return circularProgress();
@@ -60,7 +60,7 @@ class _TimelineState extends State<Timeline> {
           User user = User.fromDocument(doc);
           final bool isAuthUser = currentUser.id == user.id;
           final bool isFollowingUser = followingList.contains(user.id);
-          // remove auth user from recommended list
+          //remove auth user from recommended list
           if (isAuthUser) {
             return;
           } else if (isFollowingUser) {
@@ -71,9 +71,10 @@ class _TimelineState extends State<Timeline> {
           }
         });
         return Container(
-          color: Theme.of(context).accentColor.withOpacity(0.2),
+          color: Colors.white,
           child: Column(
             children: <Widget>[
+              SizedBox(height: 10),
               Container(
                 padding: EdgeInsets.all(12.0),
                 child: Row(
@@ -97,6 +98,7 @@ class _TimelineState extends State<Timeline> {
                   ],
                 ),
               ),
+              Divider(indent: 25,endIndent: 25,),
               Column(children: userResults),
             ],
           ),

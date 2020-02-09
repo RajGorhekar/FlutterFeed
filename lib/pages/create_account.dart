@@ -20,9 +20,7 @@ class _CreateAccountState extends State<CreateAccount> {
       form.save();
       SnackBar snackbar = SnackBar(content: Text("Welcome $username!"));
       _scaffoldKey.currentState.showSnackBar(snackbar);
-      Timer(Duration(seconds: 2), () {
-        Navigator.pop(context, username);
-      });
+      Navigator.pop(context, username);
     }
   }
 
@@ -91,6 +89,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                   ),
                 ),
+                SizedBox(height : 50),
+                Text('confirm Once Again \n You can Continue If You have Already done this ! ')
               ],
             ),
           )

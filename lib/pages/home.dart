@@ -26,6 +26,7 @@ final followingRef = Firestore.instance.collection('following');
 
 final DateTime timeStamp = DateTime.now();
 User currentUser;
+String username ='user';
 
 class Home extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  configurePushNotification(){
+  configurePushNotification() {
     final GoogleSignInAccount user = googleSignIn.currentUser;
     if (Platform.isIOS) getiOSPermission();
 
@@ -101,7 +102,8 @@ class _HomeState extends State<Home> {
       },
     );
   }
-  getiOSPermission(){
+
+  getiOSPermission() {
     _firebaseMessaging.requestNotificationPermissions(
         IosNotificationSettings(alert: true, badge: true, sound: true));
     _firebaseMessaging.onIosSettingsRegistered.listen((settings) {
@@ -114,7 +116,7 @@ class _HomeState extends State<Home> {
     DocumentSnapshot doc = await usersRef.document(user.id).get();
 
     if (!doc.exists) {
-      final username = await Navigator.push(
+      username = await Navigator.push(
           context, MaterialPageRoute(builder: (context) => CreateAccount()));
 
       usersRef.document(user.id).setData({
@@ -170,13 +172,9 @@ class _HomeState extends State<Home> {
       body: PageView(
         children: <Widget>[
           Timeline(currentUser: currentUser),
-          // RaisedButton(
-          //   onPressed: logout,
-          //   child: Text('Logout'),
-          // ),
-          ActivityFeed(),
-          Upload(currentUser),
           Search(),
+          Upload(currentUser),
+          ActivityFeed(),
           Profile(profileId: currentUser?.id),
         ],
         controller: pageController,
@@ -192,7 +190,7 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.whatshot),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_active),
+            icon: Icon(Icons.search),
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -201,7 +199,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.notifications_active),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
