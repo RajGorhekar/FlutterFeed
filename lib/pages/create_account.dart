@@ -89,12 +89,12 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                   ),
                 ),
-                SizedBox(height : 50),
-                Text('confirm Once Again \n You can Continue If You have Already done this ! ')
+                SizedBox(height : 10),
+                Text('confirm twice,  \nYou can Continue If You have Already done this ! ',style: TextStyle(color: Colors.grey),)
               ],
             ),
           )
-        ],
+        ], 
       ),
     );
   }

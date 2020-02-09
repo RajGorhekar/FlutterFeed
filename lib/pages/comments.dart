@@ -50,6 +50,7 @@ class CommentsState extends State<Comments> {
   }
 
   addComment() async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     if(commentController.text.trim()!='' || commentController.text.isNotEmpty){
       commentsRef.document(postId).collection('comments').add({
       "username": currentUser.username,
