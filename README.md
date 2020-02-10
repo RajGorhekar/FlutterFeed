@@ -3,6 +3,8 @@
 
 
   <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > The app uses firestore as database for storing images and firebase Authentication as the users can login with help of Google   sign in 
+  
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > It also uses firebase triggers and firebase functions for unique time line for each user
 
   <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > User gets all the recent notification for all the users following him ,firebasemessaging is used for this.
 
