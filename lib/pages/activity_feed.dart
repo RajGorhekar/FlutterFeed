@@ -1,6 +1,6 @@
 import 'package:FlutterFeed/pages/home.dart';
-import 'package:FlutterFeed/pages/post_screen.dart';
 import 'package:FlutterFeed/pages/profile.dart';
+import 'package:FlutterFeed/widgets/custom_image.dart';
 import 'package:FlutterFeed/widgets/header.dart';
 import 'package:FlutterFeed/widgets/progress.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -84,17 +84,40 @@ class ActivityFeedItem extends StatelessWidget {
     );
   }
 
-  showPost(context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => PostScreen(userId: userId,postId: postId, )));
+  showPost(context, mediaUrl,username,type) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 50,
+          title: RichText(
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.black,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: username.toString().toUpperCase(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: type == 'comment' ? '  commented on : ' : '  liked your Post :',
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                  ]),
+            ),
+          content: cachedNetworkImage(mediaUrl),
+        );
+      },
+    );
   }
 
   configureMediaPreview(context) {
     if (type == "like" || type == 'comment') {
       mediaPreview = GestureDetector(
-        onTap: () =>showPost(context),// null,//Navigator.push(context, MaterialPageRoute(builder: (context)=> PostScreen(postId: postId,userId: userId,))),,showPost(context),
+        onTap: () => showPost(context,mediaUrl,username,type), 
         child: Container(
           height: 50.0,
           width: 50.0,
