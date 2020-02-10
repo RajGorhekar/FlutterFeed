@@ -2,11 +2,13 @@
 ### An Instagram Clone Built Using Flutter Framework  ,  FireStore  Database , Dart and JavaScript
 
 
-  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > The app uses firestore as database for storing images and firebase Authentication as the users can login with help of Google   sign in 
-  
-  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > It also uses firebase triggers and firebase functions for unique time line for each user
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > The app uses Firestore as database for storing images  as  it is cloud-hosted NoSQL database that lets you store and sync data between your users in realtime and 
 
-  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > User gets all the recent notification for all the users following him ,firebasemessaging is used for this.
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > users can authenticate using their Google Accounts as Google Sign-In  is integrated in app using Firebase Authentication.
+
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > It also uses firebase triggers and Firebase Functions for unique time line for each user as Cloud Functions is a hosted, private, and scalable Node. js environment where you can run JavaScript code. Cloud Functions for Firebase integrates the Firebase platform by letting you write code that responds to events and invokes functionality exposed by other Firebase features.
+
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > User gets all the recent notification for all the users following him ,Firebasemessaging is used for this.
 
   <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > user can : 
 
