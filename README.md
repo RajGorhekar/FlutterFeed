@@ -6,7 +6,7 @@
 
   <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > users can authenticate using their Google Accounts as Google Sign-In  is integrated in app using Firebase Authentication.
 
-  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > It also uses firebase triggers and Firebase Functions for unique time line for each user as Cloud Functions is a hosted, private, and scalable Node. js environment where you can run JavaScript code. Cloud Functions for Firebase integrates the Firebase platform by letting you write code that responds to events and invokes functionality exposed by other Firebase features.
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > It also uses Firebase triggers and Firebase Functions for unique time line for each user as Cloud Functions is a hosted, private, and scalable Node. js environment to run JavaScript code. Cloud Functions for Firebase integrates the Firebase platform that responds to events and invokes functionality exposed by other Firebase features.
 
   <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > User gets all the recent notification for all the users following him ,Firebasemessaging is used for this.
 
@@ -27,7 +27,7 @@
 
     ⮞ location of the user can be known exacty with the help of geolocator
 
-    ⮞ Deleting a particular postwill also delete it  from the timeline of the users following 
+    ⮞ Deleting a particular post will also delete it  from the timeline of the users following 
       the Post Owner this is achieved with the help of  firebase triggers and firebase functions
       which are written in JavaScript
 
