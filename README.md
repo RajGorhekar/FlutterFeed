@@ -36,6 +36,12 @@
 
 # The Following are few Snapshots from the App : 
 
+
+
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/14.jpg" width ="280"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/15.jpg" width ="280"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/12.jpg" width ="280"  />
+## --------------------------------------------------------------------------------------
 <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/1.jpg" width ="280"  />.
 <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/2.jpg" width ="280"  />.
 <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/3.jpg" width ="280"  />
@@ -45,18 +51,16 @@
 <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/6.jpg" width ="280"  />
 ## --------------------------------------------------------------------------------------
 <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/17.jpg" width ="280"  />.
-<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/8.jpg" width ="280"  />.
-<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/9.jpg" width ="280"  />
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/9.jpg" width ="280"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/8.jpg" width ="280"  />
 ## --------------------------------------------------------------------------------------
-<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/10.jpg" width ="280"  />.
 <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/11.jpg" width ="280"  />.
-<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/12.jpg" width ="280"  />
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/10.jpg" width ="280"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/18.jpg" width ="280"  />
 ## --------------------------------------------------------------------------------------
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/16.jpg" width ="280"  />.
 <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/13.jpg" width ="280"  />.
-<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/14.jpg" width ="280"  />.
-<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/15.jpg" width ="280"  />
-## --------------------------------------------------------------------------------------
-<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/16.jpg" width ="280"  />
+
 
 ## Dependencies used : 
 <img src="https://user-images.githubusercontent.com/58221273/74100451-18e22a80-4b55-11ea-8273-6038e595dd24.png"  />
