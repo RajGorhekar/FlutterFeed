@@ -1,37 +1,74 @@
-## Welcome to GitHub Pages
+# FlutterFeed  <img src="https://github.com/RajGorhekar/Flutter-Feed/blob/master/assets/images/icon.png" width ="25"  >
+### An Instagram Clone Built Using Flutter Framework  ,  FireStore  Database , Dart and JavaScript
 
-You can use the [editor on GitHub](https://github.com/RajGorhekar/FlutterFeed/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > The app uses Firestore as database for storing images  as  it is cloud-hosted NoSQL database that lets you store and sync data between your users in realtime and 
 
-### Markdown
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > users can authenticate using their Google Accounts as Google Sign-In  is integrated in app using Firebase Authentication.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > It also uses Firebase triggers and Firebase Functions for unique time line for each user as Cloud Functions is a hosted, private, and scalable Node. js environment to run JavaScript code. Cloud Functions for Firebase integrates the Firebase platform that responds to events and invokes functionality exposed by other Firebase features.
 
-```markdown
-Syntax highlighted code block
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > User gets all the recent notification for all the users following him ,Firebasemessaging is used for this.
 
-# Header 1
-## Header 2
-### Header 3
+  <img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/head.png" width ="20"  > user can : 
 
-- Bulleted
-- List
+    ⮞ Follow and unfollow other Users
 
-1. Numbered
-2. List
+    ⮞ like and unlike post for all the users he follows
 
-**Bold** and _Italic_ and `Code` text
+    ⮞ Safely Delete his own post 
 
-[Link](url) and ![Image](src)
-```
+    ⮞ Edit his profile that is can change display name and his bio 
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+    ⮞ User can search for all the other users 
 
-### Jekyll Themes
+    ⮞ Post an image with description and location and that post will be visible to 
+      all the other users who follow him  
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/RajGorhekar/FlutterFeed/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+    ⮞ location of the user can be known exacty with the help of geolocator
 
-### Support or Contact
+    ⮞ Deleting a particular post will also delete it  from the timeline of the users following 
+      the Post Owner this is achieved with the help of  firebase triggers and firebase functions
+      which are written in JavaScript
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+    ⮞ When  any user likes a post he can see heart animation on the post which is achieved with 
+      the help of the animator package
+
+    ⮞ User can see all the recent activities taking place on the activity feed page he will be 
+      notified on his profile page when any   of his follower does so.
+
+
+# The Following are few Snapshots from the App : 
+
+
+
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/14.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/15.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/12.jpg" width ="270"  />
+## --------------------------------------------------------------------------------------
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/1.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/2.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/3.jpg" width ="270"  />
+## --------------------------------------------------------------------------------------
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/4.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/5.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/6.jpg" width ="270"  />
+## --------------------------------------------------------------------------------------
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/17.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/9.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/8.jpg" width ="270"  />
+## --------------------------------------------------------------------------------------
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/11.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/10.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/18.jpg" width ="270"  />
+## --------------------------------------------------------------------------------------
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/16.jpg" width ="270"  />.
+<img src="https://raw.githubusercontent.com/RajGorhekar/Flutter-Feed/master/ScreenShots/13.jpg" width ="270"  />.
+
+
+## Dependencies used : 
+<img src="https://user-images.githubusercontent.com/58221273/74100451-18e22a80-4b55-11ea-8273-6038e595dd24.png"  />
+
+
+
+
